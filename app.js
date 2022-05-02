@@ -7,6 +7,7 @@ const { keyNotFound } = require('./lib/javascripts/createPgBin');
 const express = require('express');
 const app = express();
 const port = process.env.PORT;
+const domain = process.env.DOMAIN;
 
 app.set("views", "./views");
 app.set("view engine", "pug");
@@ -18,12 +19,13 @@ const reqBinRouter = require("./controllers/reqBinRouter");
 app.use("/api/req-bin", reqBinRouter);
 
 // Naviate here to get all of the requests in the bin
-// just use any parameter, such as "http://localhost:3000/12/view"
+// just use any parameter, such as "http://localhost:3003/12/view"
 app.get('/:id/instructions', (req, res) => {
   const key = req.params.id;
   
   res.render('instructions', {
-    urlKey: key
+    urlKey: key,
+    domain: domain
   });
 });
 

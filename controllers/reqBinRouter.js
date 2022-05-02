@@ -23,7 +23,11 @@ function runChildProcess(command, optionsArray) {
   
     newProcess.stderr.on('data', (data) => {
       console.error(`stderr: ${data}`);
-      reject();
+      if (/skipping/.test(data)) {
+        resolve()
+      } else {
+        reject();
+      }
     });
   
     newProcess.on('close', (code) => {
