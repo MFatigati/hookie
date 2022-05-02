@@ -10,11 +10,9 @@ const port = process.env.PORT;
 
 app.set("views", "./views");
 app.set("view engine", "pug");
-
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 const reqBinRouter = require("./controllers/reqBinRouter");
 app.use("/api/req-bin", reqBinRouter);
