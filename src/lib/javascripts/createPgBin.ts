@@ -1,7 +1,7 @@
-const { Client } = require('pg');
-const ALPHA_NUMERIC = 'abcdefghijklmnopqrstuvwxyz0123456789';
+import { Client } from 'pg';
+const ALPHA_NUMERIC:string = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-async function createPgBin(key) {
+export async function createPgBin(key: string) {
   const client = new Client({
     database: "request_bin"
   });
@@ -15,8 +15,8 @@ async function createPgBin(key) {
 
 
 // Generate a random string of 4 characters
-async function generatePgKey() {
-  const len = 4;
+export async function generatePgKey() {
+  const len:number = 4;
   let result = "";
 
   do {
@@ -29,7 +29,7 @@ async function generatePgKey() {
 }
 
 // Query postgres to check if key is unique
-async function keyNotFound(key) {
+export async function keyNotFound(key:string) {
   try {
     const client = new Client({
       database: "request_bin"
@@ -46,10 +46,4 @@ async function keyNotFound(key) {
     console.log("\nError occured checking the unique key\n");
     console.log(error);
   }
-};
-
-module.exports = {
-  createPgBin,
-  generatePgKey,
-  keyNotFound,
 };

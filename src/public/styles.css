@@ -19,6 +19,10 @@ body, html {
   font-family: 'Work Sans', sans-serif;
 }
 
+#url {
+  text-decoration: underline;
+}
+
 a {
   text-decoration: none;
   color: white;

@@ -1,10 +1,11 @@
-const {MongoClient} = require('mongodb');
+import { Callback, Document, MongoClient, OptionalId, WithId } from 'mongodb';
 
-let uri = process.env.MONGO_URI
-appDB = "req_bin_app"
+let uri:string = process.env.MONGO_URI as string;
+//console.log("Mongo URI: ", uri)
+const appDB: string = "req_bin_app"
 
-async function addReqDoc(newReqDoc, binName) {
-    const client = new MongoClient(uri);
+export async function addReqDoc(newReqDoc: OptionalId<Document>, binName: string) {
+    const client: MongoClient = new MongoClient(uri);
     try {
         await client.connect();
         // modifiable code start
@@ -18,9 +19,9 @@ async function addReqDoc(newReqDoc, binName) {
     }
 }
 
-async function listAllBins() {
-    const client = new MongoClient(uri);
-    let result
+export async function listAllBins() {
+    const client: MongoClient = new MongoClient(uri);
+    let result: any[] = [];
     try {
         await client.connect();
         // modifiable code start
@@ -35,9 +36,9 @@ async function listAllBins() {
     }
 }
 
-async function getAllReqDocs_FromOneBin(binName) {
-    const client = new MongoClient(uri);
-    let result
+export async function getAllReqDocs_FromOneBin(binName: string) {
+    const client: MongoClient = new MongoClient(uri);
+    let result: any[] = [];
     try {
         await client.connect();
         // modifiable code start
@@ -52,8 +53,8 @@ async function getAllReqDocs_FromOneBin(binName) {
     }
 }
 
-async function findSingleReqDoc_FromOneBin(bin, searchParams) {
-    const client = new MongoClient(uri);
+export async function findSingleReqDoc_FromOneBin(bin: string, searchParams: Callback<WithId<Document> | null>) {
+    const client: MongoClient = new MongoClient(uri);
     try {
         await client.connect();
         // modifiable code start
@@ -67,12 +68,12 @@ async function findSingleReqDoc_FromOneBin(bin, searchParams) {
     }
 }
 
-async function deleteAllReqDocs_FromOneBin(bin) {
-    const client = new MongoClient(uri);
+export async function deleteAllReqDocs_FromOneBin(bin: string) {
+    const client: MongoClient = new MongoClient(uri);
     try {
         await client.connect();
         // modifiable code start
-        let result = await client.db(appDB).collection(bin).deleteMany();
+        let result = await client.db(appDB).collection(bin).deleteMany({});
         console.log(result);
         // end modifiable code
     } catch (e) {
@@ -80,12 +81,4 @@ async function deleteAllReqDocs_FromOneBin(bin) {
     } finally {
         await client.close();
     }
-}
-
-module.exports = {
-    addReqDoc,
-    listAllBins,
-    getAllReqDocs_FromOneBin,
-    findSingleReqDoc_FromOneBin,
-    deleteAllReqDocs_FromOneBin
 }

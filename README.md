@@ -9,3 +9,7 @@ Create a .env file with the following values
 - DOMAIN (where you will host the app; users' bins will be assigned a specific path at this domain, where they will view them)
 
 Before creating your first request bin, click the `initialize/reset database` button on the homepage. This will create a `request_bin` database in postgres with the proper relations, if it does not already exist.
+
+Improvements to Make:
+- Time to live for individual bin and requests
+- Improve CSS for bin view
