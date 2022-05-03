@@ -3,7 +3,7 @@
 This is a tool to collect and inspect incoming HTTP requests
 in order to develop and debug webhooks, or simply to consume them. Create a bin, and then tell setup the webhook to send notifications to the given URL.
 
-App is hosted at `request-bin.michaelfatigati.dev`. So, for example, a bin URL might be <http://request-bin.michaelfatigati.dev/qz0z>. If you tell the webhook to send notifications to that URL, any such webhooks will be available to view at <http://request-bin.michaelfatigati.dev/qz0z/view>.
+App is hosted at `request-bin.michaelfatigati.dev`. So, for example, a bin URL might be <https://request-bin.michaelfatigati.dev/qz0z>. If you tell the webhook to send notifications to that URL (make sure to include the `https`), any such webhooks will be available to view at <https://request-bin.michaelfatigati.dev/qz0z/view>.
 
 Create a .env file with the following values
 - PORT
