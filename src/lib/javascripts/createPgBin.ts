@@ -1,10 +1,16 @@
-import { Client } from 'pg';
+import { Client, ClientConfig } from 'pg';
 const ALPHA_NUMERIC:string = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
+const configs:ClientConfig = {
+  database: "request_bin",
+  host: process.env.PG_HOST,
+  port: Number(process.env.PG_PORT),
+  user: process.env.PG_USER,
+  password: process.env.PG_PASSWORD
+}
+
 export async function createPgBin(key: string) {
-  const client = new Client({
-    database: "request_bin"
-  });
+  const client = new Client(configs);
 
   await client.connect();
 
@@ -31,9 +37,7 @@ export async function generatePgKey() {
 // Query postgres to check if key is unique
 export async function keyNotFound(key:string) {
   try {
-    const client = new Client({
-      database: "request_bin"
-    });
+    const client = new Client(configs);
 
     await client.connect();
 
