@@ -5,7 +5,7 @@ const parseRequest = require('./lib/javascripts/parseRequest');
 const { keyNotFound } = require('./lib/javascripts/createPgBin');
 
 const express = require('express');
-const router = require("./api/routes");
+const router = require("./routes/routes");
 const app = express();
 const port = process.env.PORT;
 const domain = process.env.DOMAIN;

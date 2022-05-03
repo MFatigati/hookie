@@ -1,11 +1,5 @@
-const reqBinRouter = require("express").Router();
-const { createPgBin, generatePgKey } = require("../lib/javascripts/createPgBin");
-const parseRequest = require("../lib/javascripts/parseRequest");
-const { addReqDoc, listAllBins, getAllReqDocs_FromOneBin, findSingleReqDoc_FromOneBin, deleteAllReqDocs_FromOneBin } = require('../lib/javascripts/mongoQuery.js');
+const { deleteAllReqDocs_FromOneBin } = require('../lib/javascripts/mongoQuery.js');
 require('dotenv').config();
-const { keyNotFound } = require('../lib/javascripts/createPgBin');
-const port = process.env.PORT;
-const domain = process.env.DOMAIN;
 const { spawn } = require('child_process');
 
 function runChildProcess(command, optionsArray) {
