@@ -5,12 +5,13 @@ dotenv.config();
 
 import Express, { Response } from 'express';
 import router from "./routes/routes";
+import {resetDBOnStartup} from "./controllers/dbController";
 const app = Express();
 const port = process.env.PORT;
 
-app.set("views", "./src/views");
+app.set("views", __dirname+"/views");
 app.set("view engine", "pug");
-app.use(Express.static('./src/public'));
+app.use(Express.static(__dirname+'/public'));
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 
@@ -24,4 +25,7 @@ app.get("/favicon.ico", (req, res) => {
   res.send().status(404);
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`)
+  resetDBOnStartup();
+});

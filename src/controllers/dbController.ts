@@ -28,6 +28,16 @@ export function runChildProcess(command:string, optionsArray:string[]) {
   })
 }
 
+export function resetDBOnStartup() {
+  "DB reset on startup."
+  runChildProcess('psql', ['-d', 'postgres', '-c', 'drop database if exists request_bin;'])
+  .then(() => {return runChildProcess('psql', ['-d', 'postgres', '-c', 'create database request_bin;'])})
+  .then(() => {return runChildProcess('psql', ['-d', 'request_bin', '-f', __dirname+'/../lib/pgSchema.sql'])})
+  .catch(_ => {
+    console.log("An error occured.")
+  })
+}
+
 export function resetDB(_:Request, res:Response) {
   console.log("pgDirName:", __dirname);
   runChildProcess('psql', ['-d', 'postgres', '-c', 'drop database if exists request_bin;'])
