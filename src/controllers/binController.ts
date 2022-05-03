@@ -1,14 +1,16 @@
 const reqBinRouter = require("express").Router();
-const { createPgBin, generatePgKey } = require("../lib/javascripts/createPgBin");
-const parseRequest = require("../lib/javascripts/parseRequest");
-const { addReqDoc, getAllReqDocs_FromOneBin } = require('../lib/javascripts/mongoQuery.js');
+import { createPgBin, generatePgKey } from "../lib/javascripts/createPgBin";
+import { parseRequest } from "../lib/javascripts/parseRequest";
+import { addReqDoc, getAllReqDocs_FromOneBin } from '../lib/javascripts/mongoQuery';
+import { keyNotFound } from '../lib/javascripts/createPgBin';
+import { Request, Response } from 'express';
 require('dotenv').config();
-const { keyNotFound } = require('../lib/javascripts/createPgBin');
+
 const domain = process.env.DOMAIN;
 
 // Hitting this API end point will create a new bin in postgres and mongoDB
 // and redirect user 
-async function createNewBin(req, res) {
+export async function createNewBin(_:Request, res:Response) {
   const key = await generatePgKey();
   console.log("Key generated successfully: ", key);
   await createPgBin(key);
@@ -16,7 +18,7 @@ async function createNewBin(req, res) {
   res.redirect(`/${key}/instructions`);
 }
 
-function showInstructions(req, res) {
+export function showInstructions(req, res) {
   const key = req.params.id;
   
   res.render('instructions', {
@@ -25,7 +27,7 @@ function showInstructions(req, res) {
   })
 }
 
-function viewOneBin(req, res) {
+export function viewOneBin(req:Request, res:Response) {
   //call to dbs to get all documents in a collection
   //response needs to be passed to display view below instead of []
   const key = req.params.id;
@@ -40,7 +42,7 @@ function viewOneBin(req, res) {
   );
 };
 
-async function catchRequestInBin(req, res) {
+export async function catchRequestInBin(req:Request, res:Response) {
   const key = req.params.id;
   const isInvalidKey = await keyNotFound(key);
 
@@ -51,11 +53,3 @@ async function catchRequestInBin(req, res) {
     res.send("We couldn't find that key sorry ").status(400); // bin doesn't exist
   }
 }
-
-
-module.exports = {
-  createNewBin,
-  showInstructions,
-  viewOneBin,
-  catchRequestInBin
-};

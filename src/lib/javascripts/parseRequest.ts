@@ -1,4 +1,4 @@
-function parseRequest(req) {
+export function parseRequest(req) {
   return JSON.parse(JSON.stringify({
     requestLine: `${req.method} ${req.url} HTTP/${req.httpVersion}`,
     timestamp: new Date(),
@@ -9,5 +9,3 @@ function parseRequest(req) {
     body: req.body,
   }));
 }
-
-module.exports = parseRequest;

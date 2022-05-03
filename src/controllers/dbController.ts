@@ -1,8 +1,9 @@
-const { deleteAllReqDocs_FromOneBin } = require('../lib/javascripts/mongoQuery.js');
+// import {deleteAllReqDocs_FromOneBin} from '../lib/javascripts/mongoQuery';
 require('dotenv').config();
-const { spawn } = require('child_process');
+import { spawn } from 'child_process';
+import { Request, Response } from 'express';
 
-function runChildProcess(command, optionsArray) {
+export function runChildProcess(command:string, optionsArray:string[]) {
   return new Promise((resolve, reject) => {
     const newProcess = spawn(command, optionsArray);  
 
@@ -13,7 +14,7 @@ function runChildProcess(command, optionsArray) {
     newProcess.stderr.on('data', (data) => {
       console.error(`stderr: ${data}`);
       if (/skipping/.test(data)) {
-        resolve()
+        resolve(null)
       } else {
         reject();
       }
@@ -22,15 +23,16 @@ function runChildProcess(command, optionsArray) {
     newProcess.on('close', (code) => {
       console.log(`child process exited with code ${code}`);
       console.log("The command was: ", optionsArray)
-      resolve();
+      resolve(null);
     });
   })
 }
 
-function resetDB(req, res) {
+export function resetDB(_:Request, res:Response) {
+  console.log("pgDirName:", __dirname);
   runChildProcess('psql', ['-d', 'postgres', '-c', 'drop database if exists request_bin;'])
   .then(() => {return runChildProcess('psql', ['-d', 'postgres', '-c', 'create database request_bin;'])})
-  .then(() => {return runChildProcess('psql', ['-d', 'request_bin', '-f', './lib/pgSchema.sql'])})
+  .then(() => {return runChildProcess('psql', ['-d', 'request_bin', '-f', __dirname+'/../lib/pgSchema.sql'])})
   .catch(_ => {
     console.log("An error occured.")
   })
@@ -39,16 +41,11 @@ function resetDB(req, res) {
 }
 
 // navigate here to delete all reqs from seed bin
-function deleteSeed(req, res) {
-  deleteAllReqDocs_FromOneBin(SEED_BIN).then(
-    response => {
-      console.log(response);
-      res.send(response);
-    }
-  );
-}
-
-module.exports = {
-  resetDB,
-  deleteSeed
-}
+// function deleteSeed(req, res) {
+//   deleteAllReqDocs_FromOneBin(SEED_BIN).then(
+//     response => {
+//       console.log(response);
+//       res.send(response);
+//     }
+//   );
+// }
